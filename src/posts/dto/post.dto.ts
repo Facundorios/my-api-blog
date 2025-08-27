@@ -7,16 +7,20 @@ export class CreatePostDto {
   title: string;
 
   @IsString()
-  @IsOptional()
-  content?: string;
+  @IsNotEmpty()
+  content: string;
 
   @IsString()
-  @IsOptional()
-  coverImage?: string;
+  @IsNotEmpty()
+  coverImage: string;
 
   @IsString()
+  @IsNotEmpty()
+  summary: string;
+
+  @IsBoolean()
   @IsOptional()
-  summary?: string;
+  isDraft?: boolean;
 }
 
 export class UpdatePostDto extends PartialType(CreatePostDto) {}

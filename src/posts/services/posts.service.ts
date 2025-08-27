@@ -6,8 +6,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Post } from './entities/post.entity';
-import { CreatePostDto, UpdatePostDto } from './dto/post.dto';
+import { Post } from '../entities/post.entity';
+import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
 
 @Injectable()
 export class PostsService {
@@ -57,6 +57,7 @@ export class PostsService {
   private async findOne(id: number) {
     const post = await this.postsRepository.findOne({
       where: { id },
+      relations: ['user.profile'],
     });
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
     return post;

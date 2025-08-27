@@ -6,8 +6,10 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Profile } from './profile.entity';
+import { Post } from 'src/posts/entities/post.entity';
 
 @Entity({
   name: 'users',
@@ -39,4 +41,7 @@ export class User {
   @OneToOne(() => Profile, { nullable: false, cascade: true, eager: true })
   @JoinColumn({ name: 'profile_id' })
   profile: Profile;
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 }
