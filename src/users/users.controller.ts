@@ -27,6 +27,11 @@ export class UsersController {
     return this.usersService.getUserById(+id);
   }
 
+  @Get(':id/posts')
+  getPosts(@Param('id') id: number) {
+    return this.usersService.getPostsByUserId(id);
+  }
+
   @Post()
   create(@Body() body: CreateUserDto) {
     return this.usersService.create(body);

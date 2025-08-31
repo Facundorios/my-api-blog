@@ -30,6 +30,17 @@ export class UsersService {
     return user;
   }
 
+  async getPostsByUserId(id: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ['posts'],
+    });
+    if (!user) {
+      throw new NotFoundException(`User with ${id} was not found`);
+    }
+    return user.posts;
+  }
+
   async create(body: CreateUserDto): Promise<User> {
     try {
       const user = await this.usersRepository.save(body);

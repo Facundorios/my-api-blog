@@ -1,5 +1,13 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsString, IsBoolean, IsOptional, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsBoolean,
+  IsOptional,
+  IsNotEmpty,
+  IsAlpha,
+  IsArray,
+  IsNumber,
+} from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -7,20 +15,28 @@ export class CreatePostDto {
   title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   content: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   coverImage: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   summary: string;
 
   @IsBoolean()
   @IsOptional()
   isDraft?: boolean;
+
+  @IsNumber()
+  userId: number;
+
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @IsOptional()
+  categoryIds: number[];
 }
 
 export class UpdatePostDto extends PartialType(CreatePostDto) {}

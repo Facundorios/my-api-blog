@@ -17,7 +17,9 @@ export class PostsService {
   ) {}
 
   async findAll(): Promise<Post[]> {
-    const posts = await this.postsRepository.find();
+    const posts = await this.postsRepository.find({
+      relations: ['user.profile', 'categories'],
+    });
     return posts;
   }
 
@@ -28,7 +30,11 @@ export class PostsService {
 
   async create(body: CreatePostDto): Promise<Post> {
     try {
-      const post = await this.postsRepository.save(body);
+      const post = await this.postsRepository.save({
+        ...body,
+        user: { id: body.userId },
+        categories: body.categoryIds.map((id) => ({ id })),
+      });
       return post;
     } catch (error) {
       throw new BadRequestException('Error creating post', error);
@@ -54,10 +60,20 @@ export class PostsService {
     }
   }
 
+  async findPostsByCategoryId(id: number) {
+    const posts = await this.postsRepository.find({
+      where: { categories: { id } },
+      relations: ['user.profile'],
+    });
+
+    if (!posts) throw new BadRequestException('NOT POSTS FOUND');
+    return posts;
+  }
+
   private async findOne(id: number) {
     const post = await this.postsRepository.findOne({
       where: { id },
-      relations: ['user.profile'],
+      relations: ['user.profile', 'categories'],
     });
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
     return post;

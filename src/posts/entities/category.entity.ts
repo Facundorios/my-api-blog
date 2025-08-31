@@ -4,7 +4,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { ManyToManySubjectBuilder } from 'typeorm/browser/persistence/subject-builder/ManyToManySubjectBuilder.js';
+import { Post } from './post.entity';
 
 @Entity({
   name: 'categories',
@@ -27,4 +31,7 @@ export class Category {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updateAt: Date;
+
+  @ManyToMany(() => Post, (post) => post.categories)
+  posts: Post[];
 }
