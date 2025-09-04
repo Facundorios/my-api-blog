@@ -43,8 +43,9 @@ export class UsersService {
 
   async create(body: CreateUserDto): Promise<User> {
     try {
-      const user = await this.usersRepository.save(body);
-      return user;
+      const newUser = this.usersRepository.create(body);
+      const savedUser = await this.usersRepository.save(newUser);
+      return this.findOne(savedUser.id);
     } catch (error) {
       throw new BadRequestException('Error creating user', error);
     }
@@ -68,6 +69,13 @@ export class UsersService {
     } catch (error) {
       throw new BadRequestException('Error deleting user', error);
     }
+  }
+
+  async getUserByEmail(email: string): Promise<User | null> {
+    const user = await this.usersRepository.findOne({
+      where: { email },
+    });
+    return user;
   }
 
   private async findOne(id: number) {

@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { ENV } from './env/model';
 import { PostsModule } from './posts/posts.module';
 import { CategoryModule } from './category/category.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { CategoryModule } from './category/category.module';
     UsersModule,
     PostsModule,
     CategoryModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
