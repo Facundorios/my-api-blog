@@ -26,7 +26,6 @@ import { CategoryModule } from './category/category.module';
         password: configService.get('POSTGRES_PASSWORD', { infer: true }),
         database: configService.get('POSTGRES_DATABASE', { infer: true }),
         autoLoadEntities: true,
-        synchronize: true,
       }),
       inject: [ConfigService],
     }),

@@ -17,8 +17,14 @@ export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255, unique: true })
+  @Column({ type: 'varchar', length: 800, unique: true, nullable: true })
   name: string;
+
+  @Column({ type: 'varchar', length: 800, nullable: true })
+  description: string;
+
+  @Column({ type: 'varchar', length: 800, name: 'cover_image', nullable: true })
+  coverImage: string;
 
   @CreateDateColumn({
     type: 'timestamptz',

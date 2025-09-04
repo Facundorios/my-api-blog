@@ -1,4 +1,5 @@
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
+import { Category } from './category.entity';
 import {
   Entity,
   Column,
@@ -10,7 +11,6 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Category } from './category.entity';
 
 @Entity({
   name: 'posts',
