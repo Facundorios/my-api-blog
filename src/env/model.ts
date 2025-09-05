@@ -6,4 +6,6 @@ export interface ENV {
   POSTGRES_USERNAME: string;
   POSTGRES_PASSWORD: string;
   POSTGRES_DATABASE: string;
+  MY_JWT_SECRET: string;
+  MY_JWT_EXPIRATION: string | number;
 }
