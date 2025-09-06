@@ -7,19 +7,24 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
-import { PostsService } from '../services/posts.service';
-import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
 
+import { AuthGuard } from '@nestjs/passport';
+
+import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
+import { PostsService } from '../services/posts.service';
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() createPostDto: CreatePostDto) {
     return this.postsService.create(createPostDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.postsService.findAll();

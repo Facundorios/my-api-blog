@@ -6,17 +6,17 @@ import { ENV } from 'src/env/model';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(private readonly configService: ConfigService<ENV>) {
-    const secretOrKey = configService.get('MY_JWT_SECRET', { infer: true });
+  constructor(configService: ConfigService<ENV>) {
+    const secret = configService.get('MY_JWT_SECRET', { infer: true });
 
-    if (!secretOrKey) {
+    if (!secret) {
       throw new Error('JWT_SECRET is not defined');
     }
 
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey,
+      secretOrKey: secret,
     });
   }
   validate(payload: { sub: string }) {

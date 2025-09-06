@@ -30,9 +30,6 @@ export class CreatePostDto {
   @IsOptional()
   isDraft?: boolean;
 
-  @IsNumber()
-  userId: number;
-
   @IsArray()
   @IsNumber({}, { each: true })
   @IsOptional()
