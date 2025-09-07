@@ -1,3 +1,4 @@
+import type { Request } from 'express';
 import {
   Controller,
   Get,
@@ -22,13 +23,21 @@ export class PostsController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  create(@Body() createPostDto: CreatePostDto, @Req() req) {
+  create(@Body() createPostDto: CreatePostDto, @Req() req: Request) {
     const user = req.user as Payload;
     const user_id = user.sub;
 
     return this.postsService.create(createPostDto, user_id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @Patch(':id/publish')
+  publish(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const user = req.user as Payload;
+    const user_id = user.sub;
+
+    return this.postsService.publish(id, user_id);
+  }
   @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {

@@ -1,6 +1,6 @@
 export interface ENV {
   SERVER_PORT: number;
-  OPEN_AI_KEY: string;
+  OPENAI_API_KEY: string;
   POSTGRES_HOST: string;
   POSTGRES_PORT: number;
   POSTGRES_USERNAME: string;

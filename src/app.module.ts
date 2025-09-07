@@ -9,6 +9,7 @@ import { ENV } from './env/model';
 import { PostsModule } from './posts/posts.module';
 import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { AuthModule } from './auth/auth.module';
     PostsModule,
     CategoryModule,
     AuthModule,
+    AiModule,
   ],
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,10 +9,13 @@ import { Repository } from 'typeorm';
 
 import { Post } from '../entities/post.entity';
 import { CreatePostDto, UpdatePostDto } from '../dto/post.dto';
+import { OpenaiService } from 'src/ai/services/openai.service';
 
 @Injectable()
 export class PostsService {
   constructor(
+    private readonly openaiService: OpenaiService,
+
     @InjectRepository(Post)
     private postsRepository: Repository<Post>,
   ) {}
@@ -39,6 +43,29 @@ export class PostsService {
     } catch (error) {
       throw new BadRequestException('Error creating post', error);
     }
+  }
+
+  async publish(id: number, user_id: number) {
+    const post = await this.findOne(id);
+    if (post.user.id !== user_id) {
+      throw new ForbiddenException('This action is not permitted.');
+    }
+
+    if (!post.title || post.categories.length === 0 || !post.content) {
+      throw new BadRequestException('No hay datos para generar el resumen');
+    }
+
+    const summary = await this.openaiService.generateSummary(post.content);
+    const image = await this.openaiService.generateImage(summary);
+
+    const publishedPost = this.postsRepository.merge(post, {
+      summary,
+      isDraft: true,
+      coverImage: image,
+    });
+
+    const updatedPost = await this.postsRepository.save(post);
+    return this.findOne(updatedPost.id);
   }
 
   async update(id: string, changes: UpdatePostDto): Promise<Post> {
