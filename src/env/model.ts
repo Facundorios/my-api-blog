@@ -1,6 +1,7 @@
 export interface ENV {
   SERVER_PORT: number;
   OPENAI_API_KEY: string;
+  GEMINI_API_KEY: string;
   POSTGRES_HOST: string;
   POSTGRES_PORT: number;
   POSTGRES_USERNAME: string;
